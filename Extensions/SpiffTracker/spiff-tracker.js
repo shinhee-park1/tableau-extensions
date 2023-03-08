@@ -82,7 +82,8 @@ function submitForm(){
     }
     console.log(post_data)
 
-    fetch('http://localhost:8000/api/spiff-tracker', {
+    try{
+        fetch('http://localhost:8000/api/spiff-tracker', {
         method: "POST",
         body: JSON.stringify(post_data),
         headers: {
@@ -90,6 +91,18 @@ function submitForm(){
             "Content-type": "application/json; charset=UTF-8"
         }
     })
+    }catch(error){
+        document.getElementsByClassName("error-message")[0].style.display = 'block'
+    }
+    
+
+
+    // if (POST){
+    //     document.getElementsByClassName("submit-message")[0].style.display = 'block'
+    // } else {
+    //     document.getElementsByClassName("error-message")[0].style.display = 'block'
+    // }
+    
 
     // location.reload()
 }
