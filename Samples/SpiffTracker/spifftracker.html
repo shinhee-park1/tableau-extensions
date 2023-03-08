@@ -13,12 +13,16 @@
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+     <link rel="stylesheet" href="./spiff-tracker.css">
+
      <!-- Tableau Extensions API Library  -->
      <!-- library is in the /lib directory -->
      <script src="../../lib/tableau.extensions.1.latest.js"></script>
 
      <!-- Your JavaScript code that uses the Extensions API goes here -->
      <script src="./spiff-tracker.js"></script>
+
+     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
      </head>
      <body>
        <!-- <div class="container">
@@ -40,9 +44,12 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>Spiff</strong> has not been submitted!
       </div>
-      
+  
       <div class="container">
-        <h3 id="title">Spiff Tracker</h3>
+        <div class="top-title" style="display:flex;">
+        <h4 id="title" style="padding-top: 20px;">Spiff Tracker</h4>
+          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_stozcwgt.json"  background="transparent"  speed="1"  style="width: 80px; height: 80px;"  loop  autoplay></lottie-player>
+        </div>
         <form id="spiff-form">
           <label>CA Name</label>
           <select id="ca-name" onchange="getCAInfo()" class="form-control" placeholder="CA Name">
@@ -83,7 +90,7 @@
             <option value="False">False</option>
           </select>
         </form>
-        <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+        <button class="btn btn-primary" onclick="submitForm()" style="margin-top: 10px;">Submit</button>
       </div>
 
      </body>
