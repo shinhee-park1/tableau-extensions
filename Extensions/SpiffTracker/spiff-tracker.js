@@ -82,7 +82,8 @@ function submitForm(){
     }
     console.log(post_data)
 
-    try{
+
+    if (document.forms['spiff-form'].reportValidity()){
         fetch('http://localhost:8000/api/spiff-tracker', {
         method: "POST",
         body: JSON.stringify(post_data),
@@ -90,21 +91,15 @@ function submitForm(){
             "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
             "Content-type": "application/json; charset=UTF-8"
         }
+        
     })
-    }catch(error){
+    document.getElementsByClassName("submit-message")[0].style.display = 'block'
+    document.forms['spiff-form'].reset()
+    
+    } else {
         document.getElementsByClassName("error-message")[0].style.display = 'block'
     }
-    
 
-
-    // if (POST){
-    //     document.getElementsByClassName("submit-message")[0].style.display = 'block'
-    // } else {
-    //     document.getElementsByClassName("error-message")[0].style.display = 'block'
-    // }
-    
-
-    // location.reload()
 }
 
 function getCAInfo(){
