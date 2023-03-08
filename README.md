@@ -1,7 +1,7 @@
 # Tableau Extensions API
 [![Tableau Supported](https://img.shields.io/badge/Support%20Level-Tableau%20Supported-53bd92.svg)](https://www.tableau.com/support-levels-it-and-developer-tools)
 
-## Setup and Running Samples
+## Setup and Running Extensions
 
 ### Prerequisites
 * You must have Node.js and npm installed. You can get these from [https://nodejs.org](https://nodejs.org).
