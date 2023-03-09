@@ -1,30 +1,8 @@
-// (function () {
-//     $(document).ready(function () {
-//         // initialize the Tableau Extension function
-//         tableau.extensions.initializeAsync().then(function () {
-//             // get all parameter from the dashboard
-//             tableau.extensions.dashboardContent.dashboard.getParametersAsync().then(function (parameters) {
-//                 parameters.forEach(function (p) {
-//                     // if a parameter changes, run the function "buttonClick"
-//                     p.addEventListener(tableau.TableauEventType.ParameterChanged, onParameterChange)
-//                 })
-//             })
-//         })
-//     })
-
-//     function onParameterChange(parameterChangeEvent) {
-//         parameterChangeEvent.getParameterAsync().then(function (param) {
-//                 document.getElementById("title").innerHTML = param.name
-//         })
-        
-//     }
-
-// })();
-
+//this is the function to grab the CAs
 function loadCAS(){
-    fetch('http://localhost:8000/api/spiff-ca', {
+    fetch('https://publicdma.carruslearn.com/api/spiff-ca', {
         headers: {
-            "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }
     })
     .then(response => {
@@ -37,9 +15,9 @@ function loadCAS(){
             selectOptions.options[selectOptions.options.length] = new Option(cas[i], cas[i])
         }
     })
-    return fetch('http://localhost:8000/api/spiff-managers', {
+    return fetch('https://publicdma.carruslearn.com/api/spiff-managers', {
         headers: {
-            "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }
     })
     .then(response => {
@@ -84,11 +62,11 @@ function submitForm(){
 
 
     if (document.forms['spiff-form'].reportValidity()){
-        fetch('http://localhost:8000/api/spiff-tracker', {
+        fetch('https://publicdma.carruslearn.com/api/spiff-tracker', {
         method: "POST",
         body: JSON.stringify(post_data),
         headers: {
-            "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
             "Content-type": "application/json; charset=UTF-8"
         }
         
@@ -105,9 +83,9 @@ function submitForm(){
 function getCAInfo(){
     const caName = document.getElementById("ca-name").value
     console.log(caName)
-    fetch('http://localhost:8000/api/spiff-ca', {
+    fetch('https://publicdma.carruslearn.com/api/spiff-ca', {
         headers: {
-            "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }
     })
     .then(response => {
@@ -121,19 +99,6 @@ function getCAInfo(){
         document.getElementById("dim-employee-id").value = CADim
 
     })
-    // return fetch('http://localhost:8000/api/spiff-managers', {
-    //     headers: {
-    //         "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
-    //     }
-    // })
-    // .then(response => {
-    //     return response.json()
-    // })
-    // .then(managers => {
-    //     console.log(managers)
-    //     let manager = managers.SF_USER_NAME[0]
-    //     document.getElementById("manager-name").value = manager
-    // })
 }
 
 function getInfo(){
