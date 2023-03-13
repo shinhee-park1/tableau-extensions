@@ -1,4 +1,4 @@
-//this is the function to grab the CAs
+//this is the function to grab the CAs and Managers dropdown
 function loadCAS(){
     fetch('https://publicdma.carruslearn.com/api/spiff-ca', {
         headers: {
@@ -35,6 +35,7 @@ function loadCAS(){
 
 window.onload = loadCAS()
 
+//this function grabs all the input/dropdown values, posts to our API, and inserts that into our Snowflake table
 function submitForm(){
     const caName = document.getElementById("ca-name").value
     const recordDate = document.getElementById("record-date").value
@@ -80,6 +81,7 @@ function submitForm(){
 
 }
 
+// this function populates the DIM Employee ID upon change of CA Name dropdown
 function getCAInfo(){
     const caName = document.getElementById("ca-name").value
     console.log(caName)
@@ -99,10 +101,4 @@ function getCAInfo(){
         document.getElementById("dim-employee-id").value = CADim
 
     })
-}
-
-function getInfo(){
-    const recordDateValue = document.getElementById("record-date").value
-    const amount = document.getElementById('amount').value
-    console.log(recordDateValue, amount)
 }
