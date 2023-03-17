@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>PPT Setup</title>
+
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+     <!-- Bootstrap -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+     <link rel="stylesheet" href="./ppt-setup.css">
+
+     <!-- Tableau Extensions API Library  -->
+     <!-- library is in the /lib directory -->
+     <script src="../../lib/tableau.extensions.1.latest.js"></script>
+
+     <!-- Your JavaScript code that uses the Extensions API goes here -->
+     <script src="./ppt-setup.js"></script>
+
+     </head>
+     <body>
+
+      <h1 class="page-title">PPT Setup</h1>
+
+    <div class="container">
+      <div class="checkbox-container">
+        <div class="form-check">
+            <input class="form-check-input default-logic" type="checkbox" value="" id="defaultCheck1" onchange="checkbox()" checked>
+            <label class="form-check-label" for="defaultCheck1">
+                Use Carrus logic
+            </label>
+        </div>
+        <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+      </div>
+
+      <div class="logic-form">
+        
+        <label>Partner Completion Threshold (%)</label>
+        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="partner-completion-threshold">
+
+        <label>Quiz/Assignment Passing Score (%)</label>
+        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="assignment-passing-score">
+
+        <label>Final Exam Passing Score (%)</label>
+        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="final-passing-score">
+
+        <label>Revenue Share Margin (%)</label>
+        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="revenue-share-margin">
+
+        <input class="form-control new-logic-form" placeholder="PSM" id="psm">
+      </div>
+
+    </div>
+    <div id="test">Hi</div>
+
+     </body>
+ </html>

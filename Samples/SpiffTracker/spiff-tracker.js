@@ -1,6 +1,6 @@
 //this is the function to grab the CAs and Managers dropdown
 function loadCAS(){
-    fetch('https://publicdma.carruslearn.com/api/spiff-ca', {
+    fetch('https://publicdma.carruslearn.com/api/spiff-recipients', {
         headers: {
             "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }
@@ -24,8 +24,7 @@ function loadCAS(){
         return response.json()
     })
     .then(managers => {
-        const managerList = managers.SF_USER_NAME
-        console.log(managerList)
+        const managerList = managers.MANAGER_NAME
         managerSelectOptions = document.getElementById("manager-name")
         for (i=0; i<managerList.length; i++) {
             managerSelectOptions.options[managerSelectOptions.options.length] = new Option(managerList[i], managerList[i])
@@ -73,7 +72,9 @@ function submitForm(){
         
     })
     document.getElementsByClassName("submit-message")[0].style.display = 'block'
-    document.forms['spiff-form'].reset()
+    setTimeout(function(){
+        window.location.reload();
+     }, 2000);
     
     } else {
         document.getElementsByClassName("error-message")[0].style.display = 'block'
@@ -85,7 +86,7 @@ function submitForm(){
 function getCAInfo(){
     const caName = document.getElementById("ca-name").value
     console.log(caName)
-    fetch('https://publicdma.carruslearn.com/api/spiff-ca', {
+    fetch('https://publicdma.carruslearn.com/api/spiff-recipients', {
         headers: {
             "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }

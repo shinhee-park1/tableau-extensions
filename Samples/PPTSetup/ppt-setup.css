@@ -1,0 +1,22 @@
+.page-title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.checkbox-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+label{
+    margin: 5px;
+}
+
+.new-logic-form{
+    margin: 5px;
+}
+
+.logic-form{
+    display: none;
+}
