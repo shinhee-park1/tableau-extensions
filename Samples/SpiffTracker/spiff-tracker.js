@@ -24,7 +24,7 @@ function loadCAS(){
         return response.json()
     })
     .then(managers => {
-        const managerList = managers.MANAGER_NAME
+        const managerList = managers.SF_USER_NAME
         managerSelectOptions = document.getElementById("manager-name")
         for (i=0; i<managerList.length; i++) {
             managerSelectOptions.options[managerSelectOptions.options.length] = new Option(managerList[i], managerList[i])
