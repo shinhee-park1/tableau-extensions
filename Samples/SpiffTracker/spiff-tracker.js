@@ -1,3 +1,20 @@
+(function () {
+  
+    $(document).ready(function () {
+      tableau.extensions.initializeAsync().then(function () {
+  
+        // Add button handlers for refreshing data.
+        // $('#refresh').click(refreshDashboard);
+      }, function (err) {
+        // Something went wrong in initialization.
+        console.log('Error while Initializing: ' + err.toString());
+      });
+    });
+  
+    
+  })();
+
+
 //this is the function to grab the CAs and Managers dropdown
 function loadCAS(){
     fetch('https://publicdma.carruslearn.com/api/spiff-recipients', {
@@ -71,6 +88,14 @@ function submitForm(){
         }
         
     })
+
+    let dashboard = tableau.extensions.dashboardContent.dashboard;
+    let selectedWorksheet = dashboard.worksheets.find(w => w.name === 'Spiff Table');
+    selectedWorksheet.getDataSourcesAsync().then(dataSources => {
+        let selectedDataSource = dataSources.find(ds => ds.name === 'DATA_TOOLS.COMPENSATION_ENGINE.SPIFFS');
+        selectedDataSource.refreshAsync();
+    })
+
     document.getElementsByClassName("submit-message")[0].style.display = 'block'
     setTimeout(function(){
         window.location.reload();
@@ -79,6 +104,8 @@ function submitForm(){
     } else {
         document.getElementsByClassName("error-message")[0].style.display = 'block'
     }
+
+    
 
 }
 
@@ -103,3 +130,10 @@ function getCAInfo(){
 
     })
 }
+
+function refreshDashboard() {
+    const dashboard = tableau.extensions.dashboardContent.dashboard;
+    dashboard.worksheets.forEach(function(worksheet) {
+      worksheet.refreshDataAsync()
+    })
+  }

@@ -7,6 +7,7 @@
 
       // Add button handlers for clearing filters.
       $('#clear').click(clearAllFilters);
+      $('#refresh').click(refreshDashboard);
     }, function (err) {
       // Something went wrong in initialization.
       console.log('Error while Initializing: ' + err.toString());
@@ -152,6 +153,15 @@
       $('#filtersTable').removeClass('show').addClass('hidden');
     }
   }
+
+  function refreshDashboard() {
+    const dashboard = tableau.extensions.dashboardContent.dashboard;
+    dashboard.worksheets.forEach(function(worksheet) {
+      worksheet.refreshDataAsync()
+    })
+    
+  }
+
   
 })();
 
