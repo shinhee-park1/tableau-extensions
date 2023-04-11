@@ -7,7 +7,6 @@
 
       // Add button handlers for clearing filters.
       $('#clear').click(clearAllFilters);
-      $('#refresh').click(refreshDashboard);
     }, function (err) {
       // Something went wrong in initialization.
       console.log('Error while Initializing: ' + err.toString());
@@ -76,6 +75,22 @@
 
       if (valueStr.length > 2 ){
         document.getElementById("title").innerHTML = valueStr
+        fetch('https://publicdma.carruslearn.com/api/ppt_dim', {
+        headers: {
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+        }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            const partnerNames = data.PARTNER_NAME
+            const partnerIndex = partnerNames.indexOf(valueStr)
+            const partnerDIM = data.DIMROWID[partnerIndex]
+            document.getElementById("partner-dim").value = partnerDIM
+
+        })
       }
       
     });
@@ -154,14 +169,6 @@
     }
   }
 
-  function refreshDashboard() {
-    const dashboard = tableau.extensions.dashboardContent.dashboard;
-    dashboard.worksheets.forEach(function(worksheet) {
-      worksheet.refreshDataAsync()
-    })
-    
-  }
-
   
 })();
 
@@ -179,51 +186,110 @@ function checkbox() {
       
 }
 
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+// console.log(formatDate(Date()));
+
 function submitForm() {
-  if($('.default-logic').not(":checked")){
+  
+  if($('.default-logic').is(":checked") === false){
     let partnerCompletionThreshold = document.getElementById("partner-completion-threshold").value
     let assignmentPassingScore = document.getElementById("assignment-passing-score").value
     let finalExamPassingScore = document.getElementById("final-passing-score").value
     let revenueShareMargin = document.getElementById("revenue-share-margin").value
     let psm = document.getElementById("psm").value
+    let setupDate = formatDate(Date())
+    let dim = document.getElementById("partner-dim").value
 
-    console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm)
+    console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm, dim)
+
+    let post_data = {
+      "PARTNER_COMPLETION_THRESHOLD": `${partnerCompletionThreshold}`,
+      "QUIZ_ASSIGNMENT_PASSING_SCORE": `${assignmentPassingScore}`,
+      "FINAL_EXAM_PASSING_SCORE": `${finalExamPassingScore}`,
+      "REVENUE_SHARE_MARGIN": `${revenueShareMargin}`,
+      "PSM": `${psm}`,
+      "SETUP_DATE": `${setupDate}`,
+      "DIM_PARTNER_ID": `${dim}`,
+    }
+    console.log(post_data)
+
+
+    fetch('https://publicdma.carruslearn.com/api/ppt', {
+    method: "POST",
+    body: JSON.stringify(post_data),
+    headers: {
+        "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+        "Content-type": "application/json; charset=UTF-8"
+    }
+    
+    })
   }
-  if ($('.default-logic').is(":checked")){
-      console.log('default')
+  else if ($('.default-logic').is(":checked")){
+    let partnerCompletionThreshold = 1
+    let assignmentPassingScore = 1
+    let finalExamPassingScore = 1
+    let revenueShareMargin = 1
+    let psm = document.getElementById("psm").value
+    let setupDate = formatDate(Date())
+    let dim = document.getElementById("partner-dim").value
 
-      let partnerCompletionThreshold = 'weeeee'
-      let assignmentPassingScore = 'werwer'
-      let finalExamPassingScore = 'asdf'
-      let revenueShareMargin = 'asdf'
-      let psm = 'asdfasdf'
+    console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm, dim)
 
-      console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm)
+    let post_data = {
+      "PARTNER_COMPLETION_THRESHOLD": `${partnerCompletionThreshold}`,
+      "QUIZ_ASSIGNMENT_PASSING_SCORE": `${assignmentPassingScore}`,
+      "FINAL_EXAM_PASSING_SCORE": `${finalExamPassingScore}`,
+      "REVENUE_SHARE_MARGIN": `${revenueShareMargin}`,
+      "PSM": `${psm}`,
+      "SETUP_DATE": '2023-3-30',
+      "DIM_PARTNER_ID": `${dim}`,
+    }
+    console.log(post_data)
+
+
+    fetch('https://publicdma.carruslearn.com/api/ppt', {
+    method: "POST",
+    body: JSON.stringify(post_data),
+    headers: {
+        "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+        "Content-type": "application/json; charset=UTF-8"
+    }
+    
+    })
   }
   else {
-
+    console.log('huh')
   }
   
 }
 
-function getPartnerInfo(){
-  fetch('http://localhost:8000/api/ppt', {
-      headers: {
-          "Authorization": 'Token 03a2b7e6e6c37b0b80f224b81b32c06554428823',
-      }
-  })
-  .then(response => {
-      return response.json()
-  })
-  .then(data => {
-      const psmList = data.PSM
-      console.log(psmList)
-
-      if (psmList.includes("DMA")){
-          document.getElementById("test").innerHTML = 'weeeee'
-      }
-  })
+function checkIfDIMExistsInDB (){
+  fetch('https://publicdma.carruslearn.com/api/PPT', {
+        headers: {
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        const cas = data.SF_USER_NAME
+        selectOptions = document.getElementById("ca-name")
+        for (i=0; i<cas.length; i++) {
+            selectOptions.options[selectOptions.options.length] = new Option(cas[i], cas[i])
+        }
+    })
 }
-
-window.onload = getPartnerInfo()
-

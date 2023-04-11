@@ -4,6 +4,14 @@
     font-size: 2rem;
 }
 
+#submit-btn{
+    background: teal !important;
+}
+
+body{
+    font-size: 12px !important;
+}
+
 .checkbox-container{
     display: flex;
     justify-content: space-around;
@@ -20,3 +28,5 @@ label{
 .logic-form{
     display: none;
 }
+
+  
