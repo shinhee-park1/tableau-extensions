@@ -209,7 +209,7 @@ function submitForm() {
     let assignmentPassingScore = document.getElementById("assignment-passing-score").value
     let finalExamPassingScore = document.getElementById("final-passing-score").value
     let revenueShareMargin = document.getElementById("revenue-share-margin").value
-    let psm = document.getElementById("psm").value
+    let psm = document.getElementById("ppt-psm").value
     let setupDate = formatDate(Date())
     let dim = document.getElementById("partner-dim").value
 
@@ -242,7 +242,7 @@ function submitForm() {
     let assignmentPassingScore = 1
     let finalExamPassingScore = 1
     let revenueShareMargin = 1
-    let psm = document.getElementById("psm").value
+    let psm = document.getElementById("ppt-psm").value
     let setupDate = formatDate(Date())
     let dim = document.getElementById("partner-dim").value
 
@@ -275,6 +275,26 @@ function submitForm() {
   }
   
 }
+
+function loadPartnerPSM(){
+  fetch('https://publicdma.carruslearn.com/api/ppt_psm', {
+      headers: {
+          "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+      }
+  })
+  .then(response => {
+      return response.json();
+  })
+  .then(data => {
+      const partnerPSM = data.SF_USER_NAME
+      selectOptions = document.getElementById("ppt-psm")
+      for (i=0; i<partnerPSM.length; i++) {
+          selectOptions.options[selectOptions.options.length] = new Option(partnerPSM[i], partnerPSM[i])
+      }
+  })
+}
+
+window.onload = loadPartnerPSM()
 
 function checkIfDIMExistsInDB (){
   fetch('https://publicdma.carruslearn.com/api/PPT', {
