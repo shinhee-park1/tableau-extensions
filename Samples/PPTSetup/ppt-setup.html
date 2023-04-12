@@ -27,6 +27,16 @@
      </head>
      <body>
 
+      <div class="alert alert-success alert-dismissible submit-message" style="width: 50%; margin: 0 auto; display: none;" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        New logic for partner has been submitted!
+      </div>
+
+      <div class="alert alert-danger alert-dismissible error-message" style="width: 50%; margin: 0 auto; display: none;" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        New logic for partner has not been submitted!
+      </div>
+
     <h1 class="page-title" id="title"></h1>
 
     <div class="container">
@@ -42,24 +52,27 @@
       </div>
 
       <div class="logic-form">
-        
-        <label>Partner Completion Threshold (%)</label>
-        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="partner-completion-threshold">
 
-        <label>Quiz/Assignment Passing Score (%)</label>
-        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="assignment-passing-score">
+        <div id="data-exists"></div>
+        <form id="ppt-form">
+          <label>Partner Completion Threshold (%)</label>
+          <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="partner-completion-threshold">
 
-        <label>Final Exam Passing Score (%)</label>
-        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="final-passing-score">
+          <label>Quiz/Assignment Passing Score (%)</label>
+          <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="assignment-passing-score">
 
-        <label>Revenue Share Margin (%)</label>
-        <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="revenue-share-margin">
+          <label>Final Exam Passing Score (%)</label>
+          <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="final-passing-score">
 
-        <select class="form-control new-logic-form" id="ppt-psm">
-          <option>Select PSM</option>
-        </select>
-        <!-- <input class="form-control new-logic-form" placeholder="PSM" id="psm"> -->
-        <input class="form-control new-logic-form" placeholder="DIM Partner ID" id="partner-dim">
+          <label>Revenue Share Margin (%)</label>
+          <input type="number" value="1.00" step="0.01" max="1.00" min="0" class="form-control new-logic-form" id="revenue-share-margin">
+
+          <select class="form-control new-logic-form" id="ppt-psm">
+            <option>Select PSM</option>
+          </select>
+          <!-- <input class="form-control new-logic-form" placeholder="PSM" id="psm"> -->
+          <input class="form-control new-logic-form" placeholder="DIM Partner ID" id="partner-dim">
+        </form>
       </div>
 
     </div>

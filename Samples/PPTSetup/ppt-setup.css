@@ -21,6 +21,10 @@ label{
     margin: 5px;
 }
 
+#data-exists{
+    color: teal;
+}
+
 .new-logic-form{
     margin: 5px;
 }

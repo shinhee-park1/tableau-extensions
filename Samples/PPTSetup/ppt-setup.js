@@ -91,6 +91,46 @@
             document.getElementById("partner-dim").value = partnerDIM
 
         })
+        return fetch('https://publicdma.carruslearn.com/api/ppt', {
+        headers: {
+            "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+        }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            console.log(data.DIM_PARTNER_ID)
+            // get list of DIM of partners that exist in our PPT database
+            const dimList = data.DIM_PARTNER_ID
+            //grab selected partner DIM from extension
+            const selectedPartnerDim = document.getElementById("partner-dim").value
+            //grab index of DIM that exists in our DB so we can pull other related info about this partner
+            const indexOfDim = dimList.indexOf(selectedPartnerDim)
+            //grab values from databse using index
+            const partnerCompletionThreshold = data.PARTNER_COMPLETION_THRESHOLD[indexOfDim]
+            const quizAssignmentPassingScore = data.QUIZ_ASSIGNMENT_PASSING_SCORE[indexOfDim]
+            const finalPassingScore = data.FINAL_EXAM_PASSING_SCORE[indexOfDim]
+            const revShareMargin = data.REVENUE_SHARE_MARGIN[indexOfDim]
+            //if selected partner in Tableau's DIM already exists in our PPT database, populate the rest of the form with already existing logic
+            if (dimList.includes(selectedPartnerDim)){
+              document.getElementById("data-exists").innerHTML = "Values for this partner already exist in Database. See values below."
+              document.getElementById("partner-completion-threshold").value = partnerCompletionThreshold
+              document.getElementById("assignment-passing-score").value = quizAssignmentPassingScore
+              document.getElementById("final-passing-score").value = finalPassingScore
+              document.getElementById("revenue-share-margin").value = revShareMargin
+            } else{
+              document.getElementById("data-exists").innerHTML = ""
+              document.getElementById("partner-completion-threshold").value = "1.00"
+              document.getElementById("assignment-passing-score").value = "1.00"
+              document.getElementById("final-passing-score").value = "1.00"
+              document.getElementById("revenue-share-margin").value = "1.00"
+            }
+            // const dim_partner = data.DIM_PARTNER_ID
+            // if (dim_partner.includes(339)){
+            //   document.getElementById("test").innerHTML = partnerDIM
+            // }
+        })
       }
       
     });
@@ -205,10 +245,47 @@ function formatDate(date) {
 function submitForm() {
   
   if($('.default-logic').is(":checked") === false){
-    let partnerCompletionThreshold = document.getElementById("partner-completion-threshold").value
-    let assignmentPassingScore = document.getElementById("assignment-passing-score").value
-    let finalExamPassingScore = document.getElementById("final-passing-score").value
-    let revenueShareMargin = document.getElementById("revenue-share-margin").value
+      let partnerCompletionThreshold = document.getElementById("partner-completion-threshold").value
+      let assignmentPassingScore = document.getElementById("assignment-passing-score").value
+      let finalExamPassingScore = document.getElementById("final-passing-score").value
+      let revenueShareMargin = document.getElementById("revenue-share-margin").value
+      let psm = document.getElementById("ppt-psm").value
+      let setupDate = formatDate(Date())
+      let dim = document.getElementById("partner-dim").value
+
+      console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm, dim)
+
+      let post_data = {
+        "PARTNER_COMPLETION_THRESHOLD": `${partnerCompletionThreshold}`,
+        "QUIZ_ASSIGNMENT_PASSING_SCORE": `${assignmentPassingScore}`,
+        "FINAL_EXAM_PASSING_SCORE": `${finalExamPassingScore}`,
+        "REVENUE_SHARE_MARGIN": `${revenueShareMargin}`,
+        "PSM": `${psm}`,
+        "SETUP_DATE": `${setupDate}`,
+        "DIM_PARTNER_ID": `${dim}`,
+      }
+      console.log(post_data)
+
+
+      fetch('https://publicdma.carruslearn.com/api/ppt', {
+      method: "POST",
+      body: JSON.stringify(post_data),
+      headers: {
+          "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
+          "Content-type": "application/json; charset=UTF-8"
+      }
+      })
+
+      document.getElementsByClassName("submit-message")[0].style.display = 'block'
+      setTimeout(function(){
+        window.location.reload();
+     }, 2000);
+    }
+  else if ($('.default-logic').is(":checked")){
+    let partnerCompletionThreshold = 1
+    let assignmentPassingScore = 1
+    let finalExamPassingScore = 1
+    let revenueShareMargin = 1
     let psm = document.getElementById("ppt-psm").value
     let setupDate = formatDate(Date())
     let dim = document.getElementById("partner-dim").value
@@ -236,39 +313,11 @@ function submitForm() {
     }
     
     })
-  }
-  else if ($('.default-logic').is(":checked")){
-    let partnerCompletionThreshold = 1
-    let assignmentPassingScore = 1
-    let finalExamPassingScore = 1
-    let revenueShareMargin = 1
-    let psm = document.getElementById("ppt-psm").value
-    let setupDate = formatDate(Date())
-    let dim = document.getElementById("partner-dim").value
 
-    console.log(partnerCompletionThreshold, assignmentPassingScore, finalExamPassingScore, revenueShareMargin, psm, dim)
-
-    let post_data = {
-      "PARTNER_COMPLETION_THRESHOLD": `${partnerCompletionThreshold}`,
-      "QUIZ_ASSIGNMENT_PASSING_SCORE": `${assignmentPassingScore}`,
-      "FINAL_EXAM_PASSING_SCORE": `${finalExamPassingScore}`,
-      "REVENUE_SHARE_MARGIN": `${revenueShareMargin}`,
-      "PSM": `${psm}`,
-      "SETUP_DATE": '2023-3-30',
-      "DIM_PARTNER_ID": `${dim}`,
-    }
-    console.log(post_data)
-
-
-    fetch('https://publicdma.carruslearn.com/api/ppt', {
-    method: "POST",
-    body: JSON.stringify(post_data),
-    headers: {
-        "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
-        "Content-type": "application/json; charset=UTF-8"
-    }
-    
-    })
+    document.getElementsByClassName("submit-message")[0].style.display = 'block'
+    setTimeout(function(){
+        window.location.reload();
+     }, 2000);
   }
   else {
     console.log('huh')
@@ -294,10 +343,8 @@ function loadPartnerPSM(){
   })
 }
 
-window.onload = loadPartnerPSM()
-
 function checkIfDIMExistsInDB (){
-  fetch('https://publicdma.carruslearn.com/api/PPT', {
+  fetch('https://publicdma.carruslearn.com/api/ppt', {
         headers: {
             "Authorization": 'Token ad4fa4b186b02a2dc85d1caa4eb9f6cb1b98b2c9',
         }
@@ -306,10 +353,9 @@ function checkIfDIMExistsInDB (){
         return response.json();
     })
     .then(data => {
-        const cas = data.SF_USER_NAME
-        selectOptions = document.getElementById("ca-name")
-        for (i=0; i<cas.length; i++) {
-            selectOptions.options[selectOptions.options.length] = new Option(cas[i], cas[i])
-        }
+        console.log(data)
     })
 }
+
+window.onload = loadPartnerPSM(), checkIfDIMExistsInDB()
+
